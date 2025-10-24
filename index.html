@@ -28,6 +28,28 @@
     button:hover {
       background-color: #0056b3;
     }
+	
+	#drumBtn, #booBtn {
+  margin: 8px;
+  padding: 10px 20px;
+  font-size: 1.1em;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+	#drumBtn {
+   background: #28a745;
+  color: white;
+}
+
+#booBtn {
+  background: #dc3545;
+  color: white;
+}
+
+#drumBtn:hover { background: #1f7c33; }
+#booBtn:hover { background: #b42a38; }
   </style>
 </head>
 <body>
@@ -35,24 +57,47 @@
   <p id="joke">Click the button to get a joke!</p>
   <button id="getJokeBtn">Tell me a joke!</button>
  
+ 
+ <br><br>
+
+  <button id="drumBtn">🥁 Ba-Dum-Tss</button>
+  <button id="booBtn">😒 Boo</button>
+  
   <script>
+    // Load sounds — make sure the mp3 files are next to index.html
+    const drumSound = new Audio("drum.mp3");
+    const booSound = new Audio("booing.mp3");
+
+    // Fetch a joke
     async function getDadJoke() {
       const jokeEl = document.getElementById("joke");
       jokeEl.textContent = "Loading a dad joke...";
- 
       try {
         const res = await fetch("https://icanhazdadjoke.com/", {
           headers: { Accept: "application/json" },
         });
         const data = await res.json();
         jokeEl.textContent = data.joke;
-      } catch (err) {
-        jokeEl.textContent = "Oops, couldn’t fetch a joke. Try again!";
-        console.error(err);
+      } catch {
+        jokeEl.textContent = "Oops, that joke got lost!";
       }
     }
- 
+
+    // Button events
     document.getElementById("getJokeBtn").addEventListener("click", getDadJoke);
+
+    document.getElementById("drumBtn").addEventListener("click", () => {
+      drumSound.currentTime = 0;
+      drumSound.play();
+    });
+
+    document.getElementById("booBtn").addEventListener("click", () => {
+      booSound.currentTime = 0;
+      booSound.play();
+    });
   </script>
+
 </body>
+</html>
+
 </html>
